@@ -112,3 +112,17 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# pycharm
+.idea/
+
+# output dir
+output/
+
+# tmp files
+download_results.pkl
+movie_main.txt
+myresult.csv
+
+# input file
+movies_to_search.csv

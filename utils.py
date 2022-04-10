@@ -146,16 +146,20 @@ def create_markdown_page(myresults):
     # Create iterations
     for index, row in myresults.iterrows():
         # Create a file
-        mdFile = MdUtils(file_name=row['title'])
+        mdFile = MdUtils(file_name='output/' + row['title'])
 
         # Create a metadata section
-        mdFile.new_line(text='---\n')
-        facts = ['year', 'rating','genre', 'country', 'director', 'cast']
+        mdFile.new_line(text='#movie-tvshow\n')
+        facts = ['year', 'rating', 'genre', 'country', 'director', 'cast', 'cover url', 'plot']
         for f in facts:
-            mdFile.new_line(text=f'{f.title()}: {row[f]}')
-        mdFile.new_line(text='Type: Review')
+            if f == "cast":
+                mdFile.new_line(text=f'{f}::' + "[[" + row[f].replace(",", "]],[[") + "]]")
+            elif f == "director":
+                mdFile.new_line(text=f'{f}::' + "[[" + row[f] + "]]")
+            else:
+                mdFile.new_line(text=f'{f.replace(" ", "_")}::' + str(row[f]).replace("\n", ""), wrap_width=0)
+        mdFile.new_line(text='watched:: 0')
         mdFile.new_line(text='')
-        mdFile.new_line(text='---\n')
 
         # Create a title
         mdFile.new_header(level=1, title=row['title'])
@@ -176,7 +180,7 @@ def create_markdown_page(myresults):
         mdFile.new_line(text=plot_text, wrap_width=0)
 
         # Create my own review section
-        mdFile.new_header(level=1, title="My own thoughts")
+        mdFile.new_header(level=1, title="Review")
 
         # Create markdown
         mdFile.create_md_file()
